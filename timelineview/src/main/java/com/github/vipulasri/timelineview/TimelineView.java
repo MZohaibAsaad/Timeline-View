@@ -18,6 +18,7 @@ public class TimelineView extends View {
     private Drawable mMarker;
     private Drawable mStartLine;
     private Drawable mEndLine;
+    private Drawable mDefaultLine;
     private int mMarkerSize;
     private int mLineSize;
     private int mLineOrientation;
@@ -38,6 +39,7 @@ public class TimelineView extends View {
         mMarker = typedArray.getDrawable(R.styleable.timeline_style_marker);
         mStartLine = typedArray.getDrawable(R.styleable.timeline_style_line);
         mEndLine = typedArray.getDrawable(R.styleable.timeline_style_line);
+        mDefaultLine = typedArray.getDrawable(R.styleable.timeline_style_line);
         mMarkerSize = typedArray.getDimensionPixelSize(R.styleable.timeline_style_markerSize, Utils.dpToPx(20, mContext));
         mLineSize = typedArray.getDimensionPixelSize(R.styleable.timeline_style_lineSize, Utils.dpToPx(2, mContext));
         mLineOrientation = typedArray.getInt(R.styleable.timeline_style_lineOrientation, 1);
@@ -52,6 +54,7 @@ public class TimelineView extends View {
         if(mStartLine == null && mEndLine == null) {
             mStartLine = new ColorDrawable(mContext.getResources().getColor(android.R.color.darker_gray));
             mEndLine = new ColorDrawable(mContext.getResources().getColor(android.R.color.darker_gray));
+            mDefaultLine = new ColorDrawable(mContext.getResources().getColor(android.R.color.darker_gray));
         }
     }
 
@@ -234,12 +237,10 @@ public class TimelineView extends View {
 
     private void setStartLine(Drawable startLine) {
         mStartLine = startLine;
-        initDrawable();
     }
 
     private void setEndLine(Drawable endLine) {
         mEndLine = endLine;
-        initDrawable();
     }
 
     /**
@@ -250,11 +251,16 @@ public class TimelineView extends View {
     public void initLine(int viewType) {
         if(viewType == LineType.BEGIN) {
             setStartLine(null);
+            setEndLine(mDefaultLine);
         } else if(viewType == LineType.END) {
+            setStartLine(mDefaultLine);
             setEndLine(null);
         } else if(viewType == LineType.ONLYONE) {
             setStartLine(null);
             setEndLine(null);
+        } else {
+            setStartLine(mDefaultLine);
+            setEndLine(mDefaultLine);
         }
         initDrawable();
     }
