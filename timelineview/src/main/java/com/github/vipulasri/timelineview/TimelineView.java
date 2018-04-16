@@ -237,10 +237,12 @@ public class TimelineView extends View {
 
     private void setStartLine(Drawable startLine) {
         mStartLine = startLine;
+        initDrawable();
     }
 
     private void setEndLine(Drawable endLine) {
         mEndLine = endLine;
+        initDrawable();
     }
 
     /**
